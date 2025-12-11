@@ -12,4 +12,3 @@ def read_root():
 
 # instrument the app
 Instrumentator().instrument(app).expose(app, endpoint="/metrics")
-
