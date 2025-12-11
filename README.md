@@ -1,152 +1,194 @@
-# 🚀 DevOps Capstone Project – Cloud, Automation, CI/CD, Monitoring & Security
+# 🚀 DevOps Capstone Project – Full Monitoring, Logging, CI/CD & Cloud Deployment
 
-This repository contains my complete DevOps project, showcasing real-world skills across **cloud infrastructure**, **CI/CD pipelines**, **containerization**, **Linux administration**, **monitoring**, and **network security**.  
-
-It demonstrates my ability to design, deploy, and manage production-ready systems following DevOps best practices.
-
----
-
-## 📌 Project Overview
-This project is a full DevOps implementation covering:
-
-- **Linux server setup & configuration**
-- **Secure SSH access and key-based authentication**
-- **Dockerized applications**
-- **Automated CI/CD pipeline (GitHub Actions / Jenkins)**
-- **Monitoring & alerting with Prometheus + Grafana**
-- **Reverse proxy with NGINX**
-- **Firewall, UFW, ACLs, and basic hardening**
-- **Logging & system metrics**
-- **Backup scripts and cron automation**
-
-It simulates a full DevOps workflow from development → deployment → monitoring.
+This project demonstrates end-to-end DevOps skills by deploying a fully containerized monitoring and logging stack including **Prometheus, Grafana, Node Exporter, Alertmanager, Loki, Promtail, cAdvisor**, and CI/CD automation.  
+It also includes complete **cloud deployment on AWS EC2**, infrastructure configuration, security setup, and system observability.
 
 ---
 
-## 🛠️ Tools & Technologies Used
-| Category | Tools |
-|---------|-------|
-| **OS & Environment** | Ubuntu Server, Linux CLI, SSH |
-| **Version Control** | Git & GitHub |
-| **Containers** | Docker, Docker Compose |
-| **CI/CD** | GitHub Actions / Jenkins |
-| **Web & Proxy** | NGINX |
-| **Monitoring** | Prometheus, Grafana, Node Exporter |
-| **Security** | UFW, ACLs, Key Authentication, Fail2Ban |
-| **Scripting** | Bash |
-| **Networking** | DNS, TCP/IP, Packet Tracer (labs), Encryption, Integrity checks |
+## 📌 **Project Overview**
+This capstone project showcases my practical experience implementing a production-ready DevOps environment.  
+I deployed a real monitoring system capable of tracking server performance, application metrics, container activity, log aggregation, and real-time alerts.
+
+The environment runs inside **Docker containers** and is deployed both **locally** and on the **AWS cloud (EC2 Ubuntu instance)**.
 
 ---
 
-## 📸 Architecture Diagram
-[Developer] → [GitHub Repo] → [CI/CD Pipeline] → [Dockerized App] → [Ubuntu Server]
-↓
-[NGINX Proxy]
-↓
-[Prometheus] ← [App Metrics] → [Grafana Dashboards]
+## ✅ **Features**
+### **Monitoring Stack**
+- **Prometheus** – metrics collection  
+- **Node Exporter** – system-level metrics  
+- **cAdvisor** – container metrics  
+- **Grafana** – dashboards & visualization  
+- **Alertmanager** – email/Slack alerts  
+- **Loki + Promtail** – centralized log aggregation  
+
+### **Automation & Deployment**
+- **Docker & Docker Compose**
+- **CI/CD pipeline using GitHub Actions**
+- **Push-to-deploy system** (auto-deploy to EC2 or local)
+- **Secure AWS deployment using PEM-based SSH access**
+
+### **Cloud Infrastructure**
+- Fully deployed and configured on **AWS EC2 Ubuntu instance**
+- Secured SSH, firewall rules, and network configuration
+- Persistent storage for Grafana & Prometheus
 
 ---
 
-## 🔧 Key Features
+## 🏗️ **Architecture**
 
-### **1️⃣ Linux Server Setup**
-- Created Ubuntu cloud instance  
-- Configured non-root user + SSH keys  
-- Set up directory structure, permissions, and firewall  
-- Enabled regular security updates  
+                     ┌────────────────────────┐
+                     │        Grafana         │
+                     │   Dashboards & Alerts  │
+                     └───────────┬────────────┘
+                                 │
+            ┌────────────────────┼────────────────────┐
+            │                    │                    │
+    ┌───────▼───────┐    ┌───────▼───────┐    ┌───────▼───────┐
+    │  Prometheus    │    │ Node Exporter │    │   cAdvisor     │
+    │   Metrics DB   │    │ System Stats  │    │ Container Stats│
+    └───────────────┘    └───────────────┘    └───────────────┘
+            │
+            ▼
+    ┌───────────────┐
+    │  Alertmanager  │ → Email / Slack Alerts
+    └───────────────┘
 
----
-
-### **2️⃣ Docker & Application Deployment**
-- Containerized application using **Dockerfile**  
-- Managed multi-service deployment with **Docker Compose**  
-- Used private/public images  
-- Enabled container logging and resource limits  
-
----
-
-### **3️⃣ Full CI/CD Pipeline**
-- Automated build & test stages  
-- Docker image build + push  
-- Deployment to server on merge  
-- Notifications on build status  
-- Secrets stored securely  
-
----
-
-### **4️⃣ Monitoring & Alerting**
-- **Prometheus** for metrics scraping  
-- **Node Exporter** for system metrics  
-- **Grafana dashboards** for:
-  - CPU / RAM usage  
-  - Disk IO  
-  - Request per second  
-  - Error rate  
-- Optional alerts for high load or disk usage  
-
----
-
-### **5️⃣ Security Enhancements**
-- SSH key authentication only  
-- UFW firewall with strict rules  
-- Fail2Ban for brute force protection  
-- ACLs for additional access control  
-- File integrity checks and verification  
-
----
-
-## 📂 Repository Structure
-devops-capstone/
-│
-├── docker/
-│ ├── Dockerfile
-│ ├── docker-compose.yml
-│
-├── ci-cd/
-│ ├── github-actions.yml
-│ └── jenkinsfile
-│
-├── monitoring/
-│ ├── prometheus.yml
-│ └── grafana-dashboards/
-│
-├── scripts/
-│ ├── backup.sh
-│ ├── monitoring-setup.sh
-│ └── security-hardening.sh
-│
-├── docs/
-│ ├── architecture.png
-│ ├── screenshots/
-│ └── notes.md
-│
-└── README.md
+    ┌───────────────┐
+    │      Loki      │ ← Logs ingest
+    └───────────────┘
+            ▲
+            │
+    ┌───────────────┐
+    │   Promtail     │ → Reads logs from host & containers
+    └───────────────┘
 
 
 ---
 
-## 📘 What I Learned
-This project strengthened my ability to:
+## 🐳 **Cloud Deployment on AWS EC2**
 
-- Deploy and maintain applications on Linux servers  
-- Automate workflows using CI/CD pipelines  
-- Work confidently with Docker  
-- Implement cloud-ready monitoring stacks  
-- Apply security best practices  
-- Troubleshoot networking and infrastructure issues  
-- Think like a DevOps/Cloud Engineer  
+1️⃣ Launch an EC2 Instance
+
+Ubuntu 22.04
+
+t2.micro (free tier eligible)
+
+Allow ports:
+
+- 22 (SSH)
+
+- 3000 (Grafana)
+
+- 9090 (Prometheus)
+
+- 9100 (Node Exporter)
+
+- 8080 (cAdvisor)
+
+- 3100 (Loki)
+
+2️⃣ Connect to the server
+ssh -i ~/.ssh/devops-capstone.pem ubuntu@<PUBLIC_IP>
+
+3️⃣ Install Docker & Docker Compose
+sudo apt update
+sudo apt install docker.io -y
+sudo apt install docker-compose -y
+sudo usermod -aG docker ubuntu
+
+4️⃣ Clone project
+git clone https://github.com/sharedee2776/devops-capstone.git
+cd <your-repo>
+
+
+5️⃣ Deploy the full stack
+docker compose up -d
 
 ---
 
-## 👨‍💻 About Me
-I am a passionate DevOps Engineer with strong foundations in:
 
-- Linux system administration  
-- DevOps pipelines & automation  
-- Cloud infrastructure  
-- Networking & security  
-- Monitoring + observability  
-- Python/Bash scripting  
+### 📈 Grafana Dashboards Included
+
+- System performance
+
+- Docker containers performance
+
+- Application logs dashboard
+
+- Prometheus alerting dashboard
+
+- Node Exporter full Linux server dashboard
+
+
+---
+
+### 📩 Alerting
+
+Alertmanager is configured for:
+
+- Email alerts (Gmail or SMTP)
+
+- Slack webhooks
+
+- High CPU, memory, container down, or service failure
+
+
+---
+
+### 🔧 Technologies Used
+
+- Docker / Docker Compose
+
+- Prometheus
+
+- Grafana
+
+- Node Exporter
+
+- cAdvisor
+
+- Loki
+
+- Promtail
+
+- Alertmanager
+
+- AWS EC2
+
+- Linux / Bash
+
+- Git & GitHub Actions (CI/CD)
+
+
+--- 
+
+### 🧠 Skills Demonstrated
+
+- Cloud deployment using AWS EC2
+
+- Containerization & orchestration
+
+- Monitoring & logging setup
+
+- Infrastructure automation
+
+- Linux server administration
+
+- CI/CD pipelines
+
+- GitHub version control
+
+- Troubleshooting & debugging
+
+
+---
+
+### 📜 License
+
+This project is for educational and portfolio purposes.
+
+
 
 I enjoy solving real-world engineering problems and building reliable systems.
 
@@ -162,3 +204,8 @@ If you’d like to connect or discuss my work:
 ---
 
 ⭐ **If you find this project interesting, feel free to star the repo!**  
+
+
+
+
+
