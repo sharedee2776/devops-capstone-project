@@ -1,7 +1,7 @@
 services:
-  app:
+  devops-capstone-app:
     image: sharedee2776/devops-capstone-app:latest
-    container_name: app
+    container_name: devops-capstone-app
     ports:
       - "20001:20001"
     depends_on:
