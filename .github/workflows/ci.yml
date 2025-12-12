@@ -20,36 +20,38 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            pip install fastapi uvicorn prometheus-fastapi-instrumentator prometheus-client
+          fi
+          # Ensure pytest is available for test runs
+          pip install pytest
 
       - name: Run Linter
         run: |
+          python -m pip install --upgrade pip
           pip install flake8
           flake8 .
 
-    - name: Run Tests
-  run: |
-    python -m pip install --upgrade pip
-    if [ -f requirements.txt ]; then
-      pip install -r requirements.txt
-    else
-      pip install fastapi pytest httpx
-    fi
+      - name: Run Tests
+        run: |
+          set -euo pipefail
 
-    echo "Repository root files:"
-    ls -la
-    echo "tests/ files (if any):"
-    ls -la tests || true
+          echo "Repository root files:"
+          ls -la
+          echo "tests/ files (if any):"
+          ls -la tests || true
 
-    # Run pytest and treat exit code 5 (no tests collected) as success
-    set +e                   # disable exit-on-error so we can capture pytest rc
-    python -m pytest -q
-    rc=$?
-    set -e                   # re-enable exit-on-error (optional)
-    if [ $rc -eq 5 ]; then
-      echo "Pytest collected 0 items (exit code 5). Treating as success for CI."
-      exit 0
-    elif [ $rc -ne 0 ]; then
-      echo "Pytest failed with exit code $rc"
-      exit $rc
-    fi
+          # Run pytest and capture exit code. Treat code 5 (no tests collected) as success.
+          set +e
+          python -m pytest -q
+          rc=$?
+          set -e
+          if [ $rc -eq 5 ]; then
+            echo "Pytest collected 0 items (exit code 5). Treating as success for CI."
+            exit 0
+          elif [ $rc -ne 0 ]; then
+            echo "Pytest failed with exit code $rc"
+            exit $rc
+          fi
